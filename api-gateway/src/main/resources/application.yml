@@ -1,0 +1,68 @@
+# Global Filters using Property Based Configuration
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: zipkin
+          uri: http://zipkin:9411
+          predicates:
+            - Path=/zipkin
+        - id: zipkin-static
+          uri: http://zipkin:9411
+          predicates:
+            - Path=/zipkin/**
+
+        - id: service-registry
+          uri: http://service-registry:8761
+          predicates:
+            - Path=/eureka
+          filters:
+            - SetPath=/
+        - id: service-registry-static
+          uri: http://service-registry:8761
+          predicates:
+            - Path=/eureka/**
+
+        - id: prometheus
+          uri: http://prometheus:9090
+          predicates:
+            - Path=/prometheus/**
+          filters:
+            - RewritePath=/prometheus/(?<segment>.*), /$\{segment}
+
+#        - id: grafana
+#          uri: http://${GRAFANA:localhost}:3000
+#          predicates:
+#            - Path=/login, /public/**
+
+        - id: authentication-service
+          uri: lb://authentication-service
+          predicates:
+            - Path=/api/v1/auth/{segment}
+          filters:
+            - RewritePath=/api/v1/auth/(?<segment>.*),/api/authentication-service/$\{segment}
+            - ApiFilter
+
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/product-service/{segment}
+          filters:
+            - ApiFilter
+
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/api/inventory-service/{segment}
+          filters:
+            - ApiFilter
+
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/order-service/{segment}
+          filters:
+            - ApiFilter

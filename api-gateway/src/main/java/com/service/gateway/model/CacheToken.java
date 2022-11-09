@@ -1,4 +1,4 @@
-package com.service.gateway;
+package com.service.gateway.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

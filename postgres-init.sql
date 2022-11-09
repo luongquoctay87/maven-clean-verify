@@ -106,8 +106,8 @@ INSERT INTO tbl_user_roles (user_id, role_id) VALUES (1, 1);
 CREATE TABLE tbl_inventory
 (
     id SERIAL,
-    skuCode VARCHAR(255) NOT NULL,
+    sku_code VARCHAR(255) NOT NULL,
     quantity INTEGER,
     PRIMARY KEY (id)
 );
-INSERT INTO tbl_inventory (skuCode, quantity) VALUES('Iphone_13', 0),('Iphone_14', 10);
+INSERT INTO tbl_inventory (sku_code, quantity) VALUES('Iphone_13', 0),('Iphone_14', 10);
