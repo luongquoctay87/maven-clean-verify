@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication-app
+spec:
+  selector:
+    matchLabels:
+      app: authentication-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: authentication-app
+    spec:
+      containers:
+        - name: authentication-app
+          image: luongquoctay87/service-registry:1.0
+          ports:
+            - containerPort: 2631
+          env:   # Setting Environmental Variables
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+            - name: POSTGRES_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: dbName
+---
+# Define a 'Service' To Expose the application
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication-service
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 2631    # Port inside the cluster
+      targetPort: 2631 # Port exposed to the outside
+  selector:
+    app: authentication-app
+  type: NodePort

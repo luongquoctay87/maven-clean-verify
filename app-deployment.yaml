@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-service-v1
+spec:
+  selector:
+    matchLabels:
+      app: api-service-v1
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: api-service-v1
+    spec:
+      containers:
+        - name: api-service-v1
+          image: api-service:1.0
+          ports:
+            - containerPort: 8181
+          env:   # Setting Environmental Variables
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+            - name: POSTGRES_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: dbName
+---
+# Define a 'Service' To Expose the application
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-k8s-service
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8181    # Port inside the cluster
+      targetPort: 8181 # Port exposed to the outside
+  selector:
+    app: api-service-v1
+  type: NodePort
