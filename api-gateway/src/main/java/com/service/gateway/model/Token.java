@@ -9,14 +9,16 @@ import org.springframework.data.redis.core.RedisHash;
 import java.io.Serializable;
 import java.util.Date;
 
-@RedisHash("CacheToken")
+@RedisHash("Token")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class CacheToken implements Serializable {
+public class Token implements Serializable {
     private String id;
     private String roles;
     private String accessToken;
-    private Date expiryDate;
+    private String refreshToken;
+    private Date expiryAccessDate;
+    private Date expiryRefreshDate;
 }

@@ -1,9 +1,9 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11
 
 ARG JAR_FILE=target/authentication-service.jar
 
-RUN mkdir /opt/authentication-service
+ADD ${JAR_FILE} authentication-service.jar
 
-COPY ${JAR_FILE} /opt/authentication-service/authentication-service.jar
+EXPOSE 2631
 
-ENTRYPOINT ["java","-jar","/opt/authentication-service/authentication-service.jar"]
+ENTRYPOINT ["java","-jar","authentication-service.jar"]

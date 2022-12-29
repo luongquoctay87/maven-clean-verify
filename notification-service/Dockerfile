@@ -1,9 +1,9 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11
 
 ARG JAR_FILE=target/notification-service.jar
 
-RUN mkdir /opt/notification-service
+ADD ${JAR_FILE} notification-service.jar
 
-COPY ${JAR_FILE} /opt/notification-service/notification-service.jar
+EXPOSE 2635
 
-ENTRYPOINT ["java","-jar","/opt/notification-service/notification-service.jar"]
+ENTRYPOINT ["java","-jar","notification-service.jar"]

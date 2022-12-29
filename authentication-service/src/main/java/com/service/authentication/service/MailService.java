@@ -30,6 +30,8 @@ public class MailService {
      * @throws MessagingException
      */
     public void sendEmail(String from, String to, String subject, String body) {
+        log.info("Sending email to {}", to);
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
         message.setTo(to);
@@ -49,6 +51,8 @@ public class MailService {
      * @throws MessagingException
      */
     public void sendEmail(String from, String to, String subject, String body, String pathFile) throws MessagingException {
+        log.info("Sending email to {}", to);
+
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 

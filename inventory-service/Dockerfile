@@ -1,9 +1,9 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11
 
 ARG JAR_FILE=target/inventory-service.jar
 
-RUN mkdir /opt/inventory-service
+ADD ${JAR_FILE} inventory-service.jar
 
-COPY ${JAR_FILE} /opt/inventory-service/inventory-service.jar
+EXPOSE 2633
 
-ENTRYPOINT ["java","-jar","/opt/inventory-service/inventory-service.jar"]
+ENTRYPOINT ["java","-jar","inventory-service.jar"]

@@ -3,15 +3,15 @@
 
 ## I. Local Environment
 ### 1. Pre-Requisites
-- Install JDK 8 or higher
-- Install Maven 3.8.5 or higher
+- Install JDK 11 or higher
+- Install Maven 3.8.6 or higher
 - Install Docker
 - IntelliJ
 
 ### 2. Technical stack
-- Java 8
+- Java 11
 - Spring boot 2.7.5
-- Spring cloud 2021.0.4
+- Spring cloud 2021.0.2
 - Zipkin
 - Swagger 3.0
 - Docker & Docker compose

@@ -74,11 +74,6 @@ public class AuthenticationController {
         String authorizeHeader = request.getHeader(AUTHORIZATION);
         if (authorizeHeader != null && authorizeHeader.startsWith("Bearer")) {
             String refreshToken = authorizeHeader.substring("Bearer ".length());
-            Token token = tokenService.findByToken(refreshToken);
-            if (token == null) {
-                throw new ResourceNotFoundException(Translator.toLocale("refresh-token-not-found"));
-            }
-
             Algorithm algorithm = Algorithm.HMAC256(secretKey.getBytes());
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decodedJWT = verifier.verify(refreshToken);
@@ -86,12 +81,20 @@ public class AuthenticationController {
             User user = (User) userService.loadUserByUsername(username);
 
             List<String> authorities = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+            Date expiryAccessDate = new Date(System.currentTimeMillis() + (tokenValidity * 60 * 1000));
+            String url = request.getRequestURL().toString();
             String accessToken = JWT.create()
                     .withSubject(username)
-                    .withExpiresAt(new Date(System.currentTimeMillis() + (tokenValidity * 60 * 1000)))
-                    .withIssuer(request.getRequestURL().toString())
+                    .withExpiresAt(expiryAccessDate)
+                    .withIssuer(url)
                     .withClaim("roles", authorities)
                     .sign(algorithm);
+
+            // update access token in Redis
+            Token token = tokenService.getTokenById(username);
+            token.setAccessToken(accessToken);
+            token.setExpiryAccessDate(expiryAccessDate);
+            tokenService.saveAccessToken(token);
 
             TokenResponse tokens = new TokenResponse(user.getUsername(), authorities.toString(), accessToken, refreshToken);
             return ResponseEntity.ok(tokens);

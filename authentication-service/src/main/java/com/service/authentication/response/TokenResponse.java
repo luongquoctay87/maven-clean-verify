@@ -17,7 +17,7 @@ public class TokenResponse implements Serializable {
     @Schema(description = "User roles & permissions")
     private String roles;
 
-    @Schema(description = "Token to access APIs")
+    @Schema(description = "Access Token")
     private String access_token;
 
     @Schema(description = "Refresh token reserved for next authenticated (do not require login)")

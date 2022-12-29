@@ -1,31 +1,22 @@
 package com.service.authentication.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
-@Entity(name = "tbl_token")
-@Data
+@RedisHash("Token")
+@Setter
+@Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Token {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private AppUser user;
-
-    @Column(name = "token", nullable = false, unique = true)
-    private String token;
-
-    @Column(name = "expiry_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date expiryDate;
+public class Token implements Serializable {
+    private String id;
+    private String roles;
+    private String accessToken;
+    private String refreshToken;
+    private Date expiryAccessDate;
+    private Date expiryRefreshDate;
 }

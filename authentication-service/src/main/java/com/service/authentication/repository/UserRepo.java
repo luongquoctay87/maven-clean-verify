@@ -15,9 +15,6 @@ public interface UserRepo extends PagingAndSortingRepository<AppUser, Long> {
 
     AppUser findByEmail(String email);
 
-    @Query(value = "FROM AppUser u WHERE LOWER(u.username) LIKE LOWER(:keyword) ORDER BY u.id")
-    Page<AppUser> findAllUsers(String keyword, Pageable pageable);
-
     @Query(value = "SELECT DISTINCT r.name FROM tbl_role_permission_activities rpa " +
             "INNER JOIN tbl_roles r ON rpa.role_id = r.id " +
             "INNER JOIN tbl_user_roles usr ON usr.role_id = r.id " +

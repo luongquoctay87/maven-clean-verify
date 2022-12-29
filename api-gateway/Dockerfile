@@ -1,9 +1,9 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11
 
 ARG JAR_FILE=target/api-gateway.jar
 
-RUN mkdir /opt/api-gateway
+ADD ${JAR_FILE} api-gateway.jar
 
-COPY ${JAR_FILE} /opt/api-gateway/api-gateway.jar
+EXPOSE 2630
 
-ENTRYPOINT ["java","-jar","/opt/api-gateway/api-gateway.jar"]
+ENTRYPOINT ["java","-jar","api-gateway.jar"]

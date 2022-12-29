@@ -41,28 +41,31 @@ spring:
         - id: authentication-service
           uri: lb://authentication-service
           predicates:
-            - Path=/api/v1/auth/{segment}
+            - Path=/authentication/{segment}
           filters:
-            - RewritePath=/api/v1/auth/(?<segment>.*),/api/authentication-service/$\{segment}
+            - RewritePath=/authentication/(?<segment>.*),/$\{segment}
             - ApiFilter
 
         - id: product-service
           uri: lb://product-service
           predicates:
-            - Path=/api/product-service/{segment}
+            - Path=/product-service/{segment}
           filters:
+            - RewritePath=/product-service/(?<segment>.*),/$\{segment}
             - ApiFilter
 
         - id: inventory-service
           uri: lb://inventory-service
           predicates:
-            - Path=/api/inventory-service/{segment}
+            - Path=/inventory-service/{segment}
           filters:
+            - RewritePath=/inventory-service/(?<segment>.*),/$\{segment}
             - ApiFilter
 
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/api/order-service/{segment}
+            - Path=/order-service/{segment}
           filters:
+            - RewritePath=/order-service/(?<segment>.*),/$\{segment}
             - ApiFilter

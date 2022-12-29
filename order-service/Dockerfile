@@ -1,9 +1,9 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11
 
 ARG JAR_FILE=target/order-service.jar
 
-RUN mkdir /opt/order-service
+ADD ${JAR_FILE} order-service.jar
 
-COPY ${JAR_FILE} /opt/order-service/order-service.jar
+EXPOSE 2634
 
-ENTRYPOINT ["java","-jar","/opt/order-service/order-service.jar"]
+ENTRYPOINT ["java","-jar","order-service.jar"]

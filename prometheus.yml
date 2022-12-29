@@ -6,41 +6,41 @@ scrape_configs:
   - job_name: 'api-gateway'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: [ 'host.docker.internal:2630' ]
+      - targets: [ 'api-gateway:2630' ]
         labels:
           application: 'API Gateway Application'
 
   - job_name: 'authentication-service'
-    metrics_path: 'api/authentication-service/actuator/prometheus'
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:2631']
+      - targets: ['authentication-service:2631']
         labels:
           application: 'Authentication Service Application'
 
   - job_name: 'product-service'
-    metrics_path: 'api/product-service/actuator/prometheus'
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:2632']
+      - targets: ['product-service:2632']
         labels:
           application: 'Product Service Application'
 
   - job_name: 'inventory-service'
-    metrics_path: 'api/inventory-service/actuator/prometheus'
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: [ 'host.docker.internal:2633' ]
+      - targets: [ 'inventory-service:2633' ]
         labels:
           application: 'Inventory Service Application'
 
   - job_name: 'order-service'
-    metrics_path: 'api/order-service/actuator/prometheus'
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: [ 'host.docker.internal:2634' ]
+      - targets: [ 'order-service:2634' ]
         labels:
           application: 'Order Service Application'
 
   - job_name: 'notification-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: [ 'host.docker.internal:2635' ]
+      - targets: [ 'notification-service:2635' ]
         labels:
           application: 'Notification Service Application'

@@ -55,15 +55,6 @@ CREATE TABLE tbl_user_roles (
 	CONSTRAINT tbl_user_role_fk2 FOREIGN KEY (role_id) REFERENCES tbl_roles(id)
 );
 
-CREATE TABLE tbl_token (
-	id SERIAL,
-	user_id INT,
-	token VARCHAR(255) NOT NULL,
-	expiry_date TIMESTAMP,
-	PRIMARY KEY (id),
-	CONSTRAINT tbl_refresh_token FOREIGN KEY (user_id) REFERENCES tbl_users(id)
-);
-
 INSERT INTO tbl_activities (id, method,  url) values
 (1, 'GET', '/api/v1/users'),
 (2, 'GET', '/api/v1/users/{id}'),
@@ -97,7 +88,7 @@ INSERT INTO tbl_users (email, username, password) VALUES
 ('sysadmin@email.com', 'sysadmin', '$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6'),
 ('admin@email.com', 'admin', '$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6'),
 ('manager@email.com', 'manager', '$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6'),
-('user@email.com', 'user', '$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6');
+('taylq@beetsoft.com.vn', 'user', '$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6');
 
 INSERT INTO tbl_user_roles (user_id, role_id) VALUES (1, 1);
 

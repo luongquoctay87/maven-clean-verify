@@ -1,9 +1,9 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11
 
 ARG JAR_FILE=target/service-registry.jar
 
-RUN mkdir /opt/service-registry
+ADD ${JAR_FILE} service-registry.jar
 
-COPY ${JAR_FILE} /opt/service-registry/service-registry.jar
+EXPOSE 8761
 
-ENTRYPOINT ["java","-jar","/opt/service-registry/service-registry.jar"]
+ENTRYPOINT ["java","-jar","service-registry.jar"]

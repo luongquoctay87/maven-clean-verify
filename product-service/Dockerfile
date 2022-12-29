@@ -1,9 +1,9 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11
 
 ARG JAR_FILE=target/product-service.jar
 
-RUN mkdir /opt/product-service
+ADD ${JAR_FILE} product-service.jar
 
-COPY ${JAR_FILE} /opt/product-service/product-service.jar
+EXPOSE 2632
 
-ENTRYPOINT ["java","-jar","/opt/product-service/product-service.jar"]
+ENTRYPOINT ["java","-jar","product-service.jar"]
